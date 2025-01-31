@@ -14,8 +14,6 @@ from fastapi.staticfiles import StaticFiles
 app = FastAPI()
 
 # API Keys
-import os
-
 CRICKET_API_KEY = os.getenv("CRICKET_API_KEY", "b010864b-f0c8-414f-aebd-08f7996a1e69")
 FOOTBALL_API_KEY = os.getenv("FOOTBALL_API_KEY", "c9751a3f6f4a4e7c9cd0721a71d6cd53")
 PUSHBULLET_API_KEY = os.getenv("PUSHBULLET_API_KEY", "o.DV1U6GIbuhS3wrVhU82IywCrqmZyW2kD")
@@ -70,7 +68,6 @@ def schedule_task():
     scheduler.add_job(get_football_matches, IntervalTrigger(hours=1), id='football_task')
     scheduler.start()
 
-
 # Startup event
 @app.on_event("startup")
 async def on_startup():
@@ -85,7 +82,7 @@ async def on_shutdown():
 # Serve homepage (index.html)
 @app.get("/")
 async def home():
-    frontend_path = "C:/Users/KIIT/Desktop/sportsnoti/frontend/index.html"
+    frontend_path = "./frontend/index.html"
     if os.path.exists(frontend_path):
         with open(frontend_path, "r") as file:
             return HTMLResponse(file.read())
@@ -93,7 +90,7 @@ async def home():
         return {"error": "index.html not found"}
 
 # Mount frontend static files (e.g., CSS, JS) for serving
-app.mount("/frontend", StaticFiles(directory="C:/Users/KIIT/Desktop/sportsnoti/frontend"), name="frontend")
+app.mount("/frontend", StaticFiles(directory="./frontend"), name="frontend")
 
 # API Endpoints
 @app.get("/matches/cricket")
@@ -112,4 +109,3 @@ nest_asyncio.apply()
 # Run server
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000)
-
