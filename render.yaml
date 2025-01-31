@@ -1,0 +1,18 @@
+# Exported from Render on 2025-01-31T16:06:05Z
+services:
+- type: web
+  name: sports-notification-app
+  runtime: python
+  repo: https://github.com/Psnava123/sports-notification-app
+  plan: free
+  envVars:
+  - key: PUSHBULLET_API_KEY
+    sync: false
+  - key: FOOTBALL_API_KEY
+    sync: false
+  - key: CRICKET_API_KEY
+    sync: false
+  region: oregon
+  buildCommand: pip install -r requirements.txt
+  startCommand: main.py
+version: "1"
